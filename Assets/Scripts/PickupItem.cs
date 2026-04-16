@@ -1,16 +1,20 @@
 using UnityEngine;
 
-public class PickupItem : MonoBehaviour
+public class HotbarPickup : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public string itemName = "Key";
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            Hotbar hotbar = FindObjectOfType<Hotbar>();
+
+            if (hotbar != null)
+            {
+                hotbar.AddItem(itemName);
+                Destroy(gameObject);
+            }
+        }
     }
 }
