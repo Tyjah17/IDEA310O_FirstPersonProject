@@ -6,7 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_3DStealthGame/Tutorial_Demo/Demo_Scenes/MainMenu.unity
-    guid: e0afa25d30aeb924895fa68e23be7af2
+    path: Assets/Scenes/Menu.unity
+    guid: 0e3de6a1c7abd474bb5f1566bc32d095
+  - enabled: 1
+    path: Assets/Scenes/Level1.unity
+    guid: 9abb7f2d68dc1ca4eb9077e75eae5a45
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
