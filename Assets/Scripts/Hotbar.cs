@@ -56,4 +56,9 @@ public class Hotbar : MonoBehaviour {
 
         return "";
     }
+
+    public bool HasItem(string itemName)
+    {
+        return items.Contains(itemName);
+    }
 }

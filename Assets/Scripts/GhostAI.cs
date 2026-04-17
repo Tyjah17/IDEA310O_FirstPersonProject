@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class GhostAI : MonoBehaviour {
+public class GhostAI : MonoBehaviour
+{
     [Header("References")]
     public Transform player;
     public Camera playerCamera;
@@ -15,9 +16,15 @@ public class GhostAI : MonoBehaviour {
     [Header("Target Point On Ghost")]
     public Transform lookTarget;
 
-    private bool isBeingWatched;
+    [Header("Stun")]
+    public float defaultStunDuration = 3f;
 
-    void Start() {
+    private bool isBeingWatched;
+    private bool isStunned = false;
+    private float stunTimer = 0f;
+
+    void Start()
+    {
         if (agent == null)
             agent = GetComponent<NavMeshAgent>();
 
@@ -28,20 +35,53 @@ public class GhostAI : MonoBehaviour {
             lookTarget = transform;
     }
 
-    void Update() {
+    void Update()
+    {
         if (player == null || playerCamera == null || agent == null)
             return;
 
+        if (isStunned)
+        {
+            stunTimer -= Time.deltaTime;
+            agent.isStopped = true;
+
+            if (stunTimer <= 0f)
+            {
+                isStunned = false;
+                stunTimer = 0f;
+            }
+
+            UpdateAnimation();
+            return;
+        }
+
         isBeingWatched = CanPlayerSeeGhost();
 
-        if (isBeingWatched) {
+        if (isBeingWatched)
+        {
             agent.isStopped = true;
-        } else {
+        }
+        else
+        {
             agent.isStopped = false;
             agent.SetDestination(player.position);
         }
 
         UpdateAnimation();
+    }
+
+    public void StunGhost()
+    {
+        StunGhost(defaultStunDuration);
+    }
+
+    public void StunGhost(float duration)
+    {
+        if (duration > stunTimer)
+            stunTimer = duration;
+
+        isStunned = true;
+        agent.isStopped = true;
     }
 
     bool CanPlayerSeeGhost() {

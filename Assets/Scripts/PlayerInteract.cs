@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using StealthGame;
 
 public class PlayerInteract : MonoBehaviour {
     [Header("References")]
@@ -28,6 +29,7 @@ public class PlayerInteract : MonoBehaviour {
         if (Physics.Raycast(ray, out RaycastHit hit, interactDistance)) {
             // look for PickupItem on hit object or its parent
             PickupItem pickup = hit.collider.GetComponentInParent<PickupItem>();
+            Door door = hit.collider.GetComponentInParent<Door>();
 
             if (pickup != null) {
                 // show UI text if assigned
@@ -38,6 +40,28 @@ public class PlayerInteract : MonoBehaviour {
                 // press E to pick up
                 if (Input.GetKeyDown(interactKey)) {
                     pickup.OnPickup(hotbar, flashlight);
+                }
+                return;
+            }
+
+            if (door != null) {
+                bool hasKey = hotbar.HasItem("Key");
+                if (interactText != null) {
+                    if (hasKey) {
+                        interactText.text = "Press E to open door";
+                    } else {
+                        interactText.text = "Need Key to open door...";
+                    }
+
+                    interactText.gameObject.SetActive(true);
+                }
+
+                if (Input.GetKeyDown(interactKey))
+                {
+                    if (hasKey)
+                    {
+                        door.OpenDoor();
+                    }
                 }
                 return;
             }
