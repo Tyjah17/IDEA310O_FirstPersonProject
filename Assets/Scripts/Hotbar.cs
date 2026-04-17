@@ -13,6 +13,8 @@ public class Hotbar : MonoBehaviour
 
     void Start()
     {
+        items.Add("Flashlight");
+
         UpdateHotbar();
         HighlightSelectedSlot();
     }
