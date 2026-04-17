@@ -7,6 +7,6 @@ public class Door : MonoBehaviour {
         if (isOpen)
             return;
         isOpen = true;
-        gameObject.SetActive(false); // disappear
+        gameObject.SetActive(false);
     }
 }

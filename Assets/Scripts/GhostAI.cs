@@ -15,18 +15,7 @@ public class GhostAI : MonoBehaviour {
     [Header("Target Point On Ghost")]
     public Transform lookTarget;
 
-    [Header("Stun")]
-    public float defaultStunDuration = 3f;
-
-    [Header("Attack")]
-    public float attackDistance = 2f;
-    public float damage = 1f;
-    public float attackCooldown = 1.5f;
-
     private bool isBeingWatched;
-    private bool isStunned = false;
-    private float stunTimer = 0f;
-    private float attackTimer = 0f;
 
     void Start() {
         if (agent == null)
@@ -43,59 +32,16 @@ public class GhostAI : MonoBehaviour {
         if (player == null || playerCamera == null || agent == null)
             return;
 
-        if (isStunned) {
-            stunTimer -= Time.deltaTime;
-            agent.isStopped = true;
-
-            if (stunTimer <= 0f)
-            {
-                isStunned = false;
-                stunTimer = 0f;
-            }
-
-            UpdateAnimation();
-            return;
-        }
-
         isBeingWatched = CanPlayerSeeGhost();
 
         if (isBeingWatched) {
             agent.isStopped = true;
-        }
-        else
-        {
+        } else {
             agent.isStopped = false;
             agent.SetDestination(player.position);
         }
 
-        // attack player
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToPlayer <= attackDistance) {
-            attackTimer -= Time.deltaTime;
-
-            if (attackTimer <= 0f) {
-                if (PlayerStats.Instance != null)
-                    PlayerStats.Instance.TakeDamage(damage);
-
-                attackTimer = attackCooldown;
-            }
-        } else {
-            attackTimer = 0f;
-        }
-
         UpdateAnimation();
-    }
-
-    public void StunGhost() {
-        StunGhost(defaultStunDuration);
-    }
-
-    public void StunGhost(float duration) {
-        if (duration > stunTimer)
-            stunTimer = duration;
-
-        isStunned = true;
-        agent.isStopped = true;
     }
 
     bool CanPlayerSeeGhost() {
