@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class GhostAI : MonoBehaviour
-{
+public class GhostAI : MonoBehaviour {
     [Header("References")]
     public Transform player;
     public Camera playerCamera;
@@ -18,8 +17,7 @@ public class GhostAI : MonoBehaviour
 
     private bool isBeingWatched;
 
-    void Start()
-    {
+    void Start() {
         if (agent == null)
             agent = GetComponent<NavMeshAgent>();
 
@@ -30,19 +28,15 @@ public class GhostAI : MonoBehaviour
             lookTarget = transform;
     }
 
-    void Update()
-    {
+    void Update() {
         if (player == null || playerCamera == null || agent == null)
             return;
 
         isBeingWatched = CanPlayerSeeGhost();
 
-        if (isBeingWatched)
-        {
+        if (isBeingWatched) {
             agent.isStopped = true;
-        }
-        else
-        {
+        } else {
             agent.isStopped = false;
             agent.SetDestination(player.position);
         }
@@ -50,8 +44,7 @@ public class GhostAI : MonoBehaviour
         UpdateAnimation();
     }
 
-    bool CanPlayerSeeGhost()
-    {
+    bool CanPlayerSeeGhost() {
         Vector3 targetPos = lookTarget.position;
         Vector3 viewportPoint = playerCamera.WorldToViewportPoint(targetPos);
 
@@ -69,8 +62,7 @@ public class GhostAI : MonoBehaviour
 
         Ray ray = new Ray(playerCamera.transform.position, dir.normalized);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, distance, visibilityMask))
-        {
+        if (Physics.Raycast(ray, out RaycastHit hit, distance, visibilityMask)) {
             if (hit.transform == transform || hit.transform.IsChildOf(transform))
                 return true;
         }
@@ -78,8 +70,7 @@ public class GhostAI : MonoBehaviour
         return false;
     }
 
-    void UpdateAnimation()
-    {
+    void UpdateAnimation() {
         if (animator == null)
             return;
 

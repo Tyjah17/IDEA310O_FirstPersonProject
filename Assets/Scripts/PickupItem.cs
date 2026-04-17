@@ -1,20 +1,37 @@
 using UnityEngine;
 
-public class HotbarPickup : MonoBehaviour
-{
-    public string itemName = "Key";
+public class PickupItem : MonoBehaviour {
+    public enum ItemType {
+        Generic,
+        Flashlight,
+        Key
+    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            Hotbar hotbar = FindObjectOfType<Hotbar>();
+    [Header("Item Info")]
+    public string itemName = "Item";
+    public ItemType itemType = ItemType.Generic;
+    public bool destroyOnPickup = true;
 
-            if (hotbar != null)
-            {
-                hotbar.AddItem(itemName);
-                Destroy(gameObject);
-            }
+    public void OnPickup(Hotbar hotbar, Flashlight flashlight) {
+        if (hotbar != null) {
+            hotbar.AddItem(itemName);
+        }
+
+        HandleSpecialPickup(flashlight);
+
+        if (destroyOnPickup)
+            Destroy(gameObject);
+        else
+            gameObject.SetActive(false);
+    }
+
+    void HandleSpecialPickup(Flashlight flashlight) {
+        switch (itemType) {
+            case ItemType.Flashlight:
+                if (flashlight != null) {
+                    flashlight.UnlockFlashlight();
+                }
+                break;
         }
     }
 }
