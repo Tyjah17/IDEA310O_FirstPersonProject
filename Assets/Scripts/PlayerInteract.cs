@@ -23,27 +23,23 @@ public class PlayerInteract : MonoBehaviour {
         if (playerCamera == null)
             return;
 
-        // ray from center of screen (your reticle)
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
 
         if (Physics.Raycast(ray, out RaycastHit hit, interactDistance)) {
-            // look for PickupItem on hit object or its parent
-            PickupItem pickup = hit.collider.GetComponentInParent<PickupItem>();
-            Door door = hit.collider.GetComponentInParent<Door>();
 
+            PickupItem pickup = hit.collider.GetComponentInParent<PickupItem>();
             if (pickup != null) {
-                // show UI text if assigned
                 if (interactText != null) {
                     interactText.text = "Press E to pick up " + pickup.itemName;
                     interactText.gameObject.SetActive(true);
                 }
-                // press E to pick up
                 if (Input.GetKeyDown(interactKey)) {
                     pickup.OnPickup(hotbar, flashlight);
                 }
                 return;
             }
 
+            Door door = hit.collider.GetComponentInParent<Door>();
             if (door != null) {
                 bool hasKey = hotbar.HasItem("Key");
                 if (interactText != null) {
@@ -56,10 +52,8 @@ public class PlayerInteract : MonoBehaviour {
                     interactText.gameObject.SetActive(true);
                 }
 
-                if (Input.GetKeyDown(interactKey))
-                {
-                    if (hasKey)
-                    {
+                if (Input.GetKeyDown(interactKey)) {
+                    if (hasKey) {
                         door.OpenDoor();
                     }
                 }

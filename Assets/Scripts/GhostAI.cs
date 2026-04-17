@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class GhostAI : MonoBehaviour
-{
+public class GhostAI : MonoBehaviour {
     [Header("References")]
     public Transform player;
     public Camera playerCamera;
@@ -19,12 +18,17 @@ public class GhostAI : MonoBehaviour
     [Header("Stun")]
     public float defaultStunDuration = 3f;
 
+    [Header("Attack")]
+    public float attackDistance = 2f;
+    public float damage = 1f;
+    public float attackCooldown = 1.5f;
+
     private bool isBeingWatched;
     private bool isStunned = false;
     private float stunTimer = 0f;
+    private float attackTimer = 0f;
 
-    void Start()
-    {
+    void Start() {
         if (agent == null)
             agent = GetComponent<NavMeshAgent>();
 
@@ -35,13 +39,11 @@ public class GhostAI : MonoBehaviour
             lookTarget = transform;
     }
 
-    void Update()
-    {
+    void Update() {
         if (player == null || playerCamera == null || agent == null)
             return;
 
-        if (isStunned)
-        {
+        if (isStunned) {
             stunTimer -= Time.deltaTime;
             agent.isStopped = true;
 
@@ -57,8 +59,7 @@ public class GhostAI : MonoBehaviour
 
         isBeingWatched = CanPlayerSeeGhost();
 
-        if (isBeingWatched)
-        {
+        if (isBeingWatched) {
             agent.isStopped = true;
         }
         else
@@ -67,16 +68,29 @@ public class GhostAI : MonoBehaviour
             agent.SetDestination(player.position);
         }
 
+        // attack player
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (distanceToPlayer <= attackDistance) {
+            attackTimer -= Time.deltaTime;
+
+            if (attackTimer <= 0f) {
+                if (PlayerStats.Instance != null)
+                    PlayerStats.Instance.TakeDamage(damage);
+
+                attackTimer = attackCooldown;
+            }
+        } else {
+            attackTimer = 0f;
+        }
+
         UpdateAnimation();
     }
 
-    public void StunGhost()
-    {
+    public void StunGhost() {
         StunGhost(defaultStunDuration);
     }
 
-    public void StunGhost(float duration)
-    {
+    public void StunGhost(float duration) {
         if (duration > stunTimer)
             stunTimer = duration;
 
