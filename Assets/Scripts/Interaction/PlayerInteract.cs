@@ -46,7 +46,7 @@ public class PlayerInteract : MonoBehaviour {
                     if (hasKey) {
                         interactText.text = "Press E to open door";
                     } else {
-                        interactText.text = "Need Key to open door...";
+                        interactText.text = "Need a Key to open door...";
                     }
 
                     interactText.gameObject.SetActive(true);
