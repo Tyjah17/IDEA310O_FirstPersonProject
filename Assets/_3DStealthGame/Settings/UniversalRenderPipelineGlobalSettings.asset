@@ -343,8 +343,7 @@ MonoBehaviour:
         asm: Unity.RenderPipelines.Universal.Runtime}
       data:
         m_Version: 0
-        m_VolumeProfile: {fileID: 11400000, guid: 897e8277b938b0643a77feaa7ad7af8e,
-          type: 2}
+        m_VolumeProfile: {fileID: 0}
     - rid: 6431028424375533752
       type: {class: URPShaderStrippingSetting, ns: UnityEngine.Rendering.Universal,
         asm: Unity.RenderPipelines.Universal.Runtime}
