@@ -3,28 +3,26 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour {
     [Header("Health")]
     public int maxHealth = 3;
-    public int currentHealth;
+    public int health;
 
     [Header("Heart UI")]
     public Hearts[] hearts;
 
     void Start() {
-        currentHealth = maxHealth;
+        health = maxHealth;
         UpdateHearts();
     }
 
     public void TakeDamage(int damage) {
-        currentHealth -= damage;
-        if (currentHealth < 0)
-            currentHealth = 0;
+        health -= damage;
         UpdateHearts();
-        if (currentHealth <= 0)
+        if (health <= 0)
             Die();
     }
 
     void UpdateHearts() {
         for (int i = 0; i < hearts.Length; i++) {
-            if (i < currentHealth){
+            if (i < health){
                 hearts[i].SetHeartImage(HeartStatus.Full);
             } else {
                 hearts[i].SetHeartImage(HeartStatus.Empty);

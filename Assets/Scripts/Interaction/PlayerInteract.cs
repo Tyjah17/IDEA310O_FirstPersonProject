@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using StealthGame;
 
 public class PlayerInteract : MonoBehaviour {
     [Header("References")]
@@ -12,7 +11,7 @@ public class PlayerInteract : MonoBehaviour {
     public float interactDistance = 3f;
     public KeyCode interactKey = KeyCode.E;
 
-    [Header("UI (Optional)")]
+    [Header("UI")]
     public TextMeshProUGUI interactText;
 
     void Update() {

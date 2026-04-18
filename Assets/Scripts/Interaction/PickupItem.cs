@@ -12,6 +12,9 @@ public class PickupItem : MonoBehaviour {
     public ItemType itemType = ItemType.Generic;
     public bool destroyOnPickup = true;
 
+    [Header("UI")]
+    public GameObject batteryHUD;
+
     public void OnPickup(Hotbar hotbar, Flashlight flashlight) {
         if (hotbar != null) {
             hotbar.AddItem(itemName);
@@ -30,6 +33,8 @@ public class PickupItem : MonoBehaviour {
             case ItemType.Flashlight:
                 if (flashlight != null) {
                     flashlight.UnlockFlashlight();
+                } if (batteryHUD != null) {
+                    batteryHUD.SetActive(true);
                 }
                 break;
         }

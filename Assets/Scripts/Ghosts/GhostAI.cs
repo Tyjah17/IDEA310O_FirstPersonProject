@@ -14,9 +14,14 @@ public class GhostAI : MonoBehaviour {
     public float minWatchTime = 0f;
     public float maxWatchTime = 0f;
 
+    [Header("Stun")]
+    public float stunDuration = 3f;
+
     private float currentWatchLimit;
     private float watchTimer = 0f;
     private bool isBeingWatched = false;
+    private bool isStunned = false;
+    private float stunTimer = 0f;
 
     private GhostVision vision;
     private GhostTeleport teleporter;
@@ -49,6 +54,20 @@ public class GhostAI : MonoBehaviour {
     void Update() {
         if (player == null || agent == null || vision == null || teleporter == null)
             return;
+
+        if (isStunned) {
+            agent.isStopped = true;
+
+            stunTimer -= Time.deltaTime;
+            if (stunTimer <= 0f) {
+                isStunned = false;
+                teleporter.TeleportToRandomSpawn();
+                SetNewWatchTime();
+            }
+
+            UpdateAnimation();
+            return;
+        }
 
         isBeingWatched = vision.CanPlayerSeeGhost();
         agent.isStopped = false;
@@ -92,19 +111,18 @@ public class GhostAI : MonoBehaviour {
     }
 
     public void StunGhost() {
-        if (teleporter == null)
-            return;
-        teleporter.TeleportToRandomSpawn();
-        watchTimer = 0f;
-        SetNewWatchTime();
+        StunGhost(stunDuration);
     }
 
     public void StunGhost(float duration) {
-        if (teleporter == null)
-            return;
-        teleporter.TeleportToRandomSpawn();
+        isStunned = true;
+        stunTimer = duration;
         watchTimer = 0f;
-        SetNewWatchTime();
+
+        if (agent != null) {
+            agent.isStopped = true;
+            agent.ResetPath();
+        }
     }
 
     void UpdateAnimation() {
