@@ -6,7 +6,7 @@ public class GhostVision : MonoBehaviour {
     public Transform lookTarget;
 
     [Header("Sight Check")]
-    public float maxSightDistance = 30f;
+    public float maxSightDistance = 0;
     public LayerMask visibilityMask = ~0;
 
     void Awake() {

@@ -1,49 +1,38 @@
 using UnityEngine;
-using UnityEngine.UI;
 
-public class PlayerHealth : MonoBehaviour
-{
-    public float maxHealth = 100f;
-    public float currentHealth;
+public class PlayerHealth : MonoBehaviour {
+    [Header("Health")]
+    public int maxHealth = 3;
+    public int currentHealth;
 
-    public Slider healthSlider;
+    [Header("Heart UI")]
+    public Hearts[] hearts;
 
-    void Start()
-    {
+    void Start() {
         currentHealth = maxHealth;
-        UpdateHealthUI();
+        UpdateHearts();
     }
 
-    public void TakeDamage(float damage)
-    {
+    public void TakeDamage(int damage) {
         currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
-        UpdateHealthUI();
-
-        if (currentHealth <= 0f)
-        {
+        if (currentHealth < 0)
+            currentHealth = 0;
+        UpdateHearts();
+        if (currentHealth <= 0)
             Die();
+    }
+
+    void UpdateHearts() {
+        for (int i = 0; i < hearts.Length; i++) {
+            if (i < currentHealth){
+                hearts[i].SetHeartImage(HeartStatus.Full);
+            } else {
+                hearts[i].SetHeartImage(HeartStatus.Empty);
+            }
         }
     }
 
-    public void Heal(float amount)
-    {
-        currentHealth += amount;
-        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
-        UpdateHealthUI();
-    }
+    void Die() {
 
-    void UpdateHealthUI()
-    {
-        if (healthSlider != null)
-        {
-            healthSlider.value = currentHealth / maxHealth;
-        }
-    }
-
-    void Die()
-    {
-        Debug.Log("Player died.");
-        // Add death logic here
     }
 }

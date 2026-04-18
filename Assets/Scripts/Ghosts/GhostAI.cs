@@ -8,11 +8,11 @@ public class GhostAI : MonoBehaviour {
     public Animator animator;
 
     [Header("Behavior")]
-    public float rotationSpeed = 3f;
+    public float rotationSpeed = 0f;
 
     [Header("Watch Disappear")]
-    public float minWatchTime = 1f;
-    public float maxWatchTime = 3f;
+    public float minWatchTime = 0f;
+    public float maxWatchTime = 0f;
 
     private float currentWatchLimit;
     private float watchTimer = 0f;
