@@ -6,25 +6,26 @@ public class GhostAI : MonoBehaviour {
     public Transform player;
     public NavMeshAgent agent;
     public Animator animator;
-
-    [Header("Behavior")]
-    public float rotationSpeed = 0;
-
-    [Header("Watch Disappear")]
-    public float minWatchTime = 0;
-    public float maxWatchTime = 0;
-
-    [Header("Stun")]
-    public float stunDuration = 3;
-
-    private float currentWatchLimit;
-    private float watchTimer = 0;
-    private bool isBeingWatched = false;
-    private bool isStunned = false;
-    private float stunTimer = 0;
-
     private GhostVision vision;
     private GhostTeleport teleporter;
+
+    [Header("Watch Disappear")]
+    public float rotationSpeed = 0f;
+    public float minWatchTime = 0f;
+    public float maxWatchTime = 0f;
+    private float currentWatchLimit;
+    private float watchTimer = 0f;
+    private bool isBeingWatched = false;
+
+    [Header("Stun")]
+    public float stunDuration = 3f;
+    private bool isStunned = false;
+    private float stunTimer = 0f;
+
+    [Header("Audio")]
+    public AudioSource ghostAudio;
+    public float soundDistance = 10f;
+    public float maxVolume = 1f;
 
     void Awake() {
         if (agent == null)
@@ -84,9 +85,10 @@ public class GhostAI : MonoBehaviour {
                 return;
             }
         } else {
-            watchTimer = 0;
+            watchTimer = 0f;
         }
         UpdateAnimation();
+        HandleSound();
     }
 
     void SetNewWatchTime() {
@@ -96,7 +98,7 @@ public class GhostAI : MonoBehaviour {
 
     void RotateTowardPlayer() {
         Vector3 direction = player.position - transform.position;
-        direction.y = 0;
+        direction.y = 0f;
 
         if (direction == Vector3.zero)
             return;
@@ -110,6 +112,32 @@ public class GhostAI : MonoBehaviour {
         );
     }
 
+    void UpdateAnimation() {
+        if (animator == null)
+            return;
+        bool isMoving = agent.velocity.magnitude > 0.1f;
+        animator.SetBool("isMoving", isMoving);
+        animator.SetBool("isIdle", !isMoving);
+    }
+
+    void HandleSound() {
+        if (player == null || ghostAudio == null)
+            return;
+
+        float distance = Vector3.Distance(transform.position, player.position);
+
+        if (distance <= soundDistance) {
+            if (!ghostAudio.isPlaying)
+                ghostAudio.Play();
+
+            float volume = 1f - (distance / soundDistance);
+            ghostAudio.volume = Mathf.Clamp(volume * maxVolume, 0f, maxVolume);
+        } else {
+            if (ghostAudio.isPlaying)
+                ghostAudio.Stop();
+        }
+    }
+
     public void StunGhost() {
         StunGhost(stunDuration);
     }
@@ -117,19 +145,11 @@ public class GhostAI : MonoBehaviour {
     public void StunGhost(float duration) {
         isStunned = true;
         stunTimer = duration;
-        watchTimer = 0;
+        watchTimer = 0f;
 
         if (agent != null) {
             agent.isStopped = true;
             agent.ResetPath();
         }
-    }
-
-    void UpdateAnimation() {
-        if (animator == null)
-            return;
-        bool isMoving = agent.velocity.magnitude > 0.1;
-        animator.SetBool("isMoving", isMoving);
-        animator.SetBool("isIdle", !isMoving);
     }
 }
