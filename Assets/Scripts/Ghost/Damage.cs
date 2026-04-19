@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GhostDamage : MonoBehaviour {
+public class Damage : MonoBehaviour {
     public int damageAmount = 1;
     public float damageRate = 1f;
 

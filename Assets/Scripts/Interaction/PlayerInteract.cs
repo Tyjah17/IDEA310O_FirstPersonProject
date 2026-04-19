@@ -8,7 +8,7 @@ public class PlayerInteract : MonoBehaviour {
     public Flashlight flashlight;
 
     [Header("Interaction Settings")]
-    public float interactDistance = 3f;
+    public float interactDistance = 0;
     public KeyCode interactKey = KeyCode.E;
 
     [Header("UI")]
@@ -55,6 +55,19 @@ public class PlayerInteract : MonoBehaviour {
                     if (hasKey) {
                         door.OpenDoor();
                     }
+                }
+                return;
+            }
+
+            LevelExit levelExit = hit.collider.GetComponentInParent<LevelExit>();
+            if (levelExit != null) {
+                if (interactText != null) {
+                    interactText.text = "Press E to exit level";
+                    interactText.gameObject.SetActive(true);
+                }
+
+                if (Input.GetKeyDown(interactKey)) {
+                    levelExit.Interact();
                 }
                 return;
             }

@@ -9,6 +9,10 @@ public class PlayerHealth : MonoBehaviour {
     [Header("Heart UI")]
     public Hearts[] hearts;
 
+    [Header("GameOver UI")]
+    public GameObject gameOverPanel;
+    public GameUIManager gameUI;
+
     void Start() {
         health = maxHealth;
         UpdateHearts();
@@ -32,6 +36,6 @@ public class PlayerHealth : MonoBehaviour {
     }
 
     void Die() {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        gameUI.ShowGameOver();
     }
 }
