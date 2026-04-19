@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: beccccd393823384591b0f3fdec90aa1
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 327884
+  packageName: Modular Hedge
+  packageVersion: 1.0
+  assetPath: Assets/HornbeamHedge/Materials/HornbeamHedgeShader.mat
+  uploadId: 812692

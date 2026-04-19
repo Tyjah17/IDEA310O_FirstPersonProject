@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 25e41913032fca247878ab55f4f3afe2
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 327884
+  packageName: Modular Hedge
+  packageVersion: 1.0
+  assetPath: Assets/HornbeamHedge/Materials/Grass.mat
+  uploadId: 812692

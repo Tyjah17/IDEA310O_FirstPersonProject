@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d88b16bb5ac61b44096be051bf2a64e9
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 327884
+  packageName: Modular Hedge
+  packageVersion: 1.0
+  assetPath: Assets/HornbeamHedge/Prefabs/HornbeamHedgeStraight.prefab
+  uploadId: 812692

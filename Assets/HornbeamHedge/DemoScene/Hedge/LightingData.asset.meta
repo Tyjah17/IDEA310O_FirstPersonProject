@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a22be375d9628ee4a9199056525a0df2
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 112000000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 327884
+  packageName: Modular Hedge
+  packageVersion: 1.0
+  assetPath: Assets/HornbeamHedge/DemoScene/Hedge/LightingData.asset
+  uploadId: 812692

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 54536ef3d3679154288682e61d6dbb17
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 327884
+  packageName: Modular Hedge
+  packageVersion: 1.0
+  assetPath: Assets/HornbeamHedge/DemoScene/Hedge/Main Camera Profile.asset
+  uploadId: 812692
