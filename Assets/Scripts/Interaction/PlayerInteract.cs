@@ -8,7 +8,7 @@ public class PlayerInteract : MonoBehaviour {
     public Flashlight flashlight;
 
     [Header("Interaction Settings")]
-    public float interactDistance = 0;
+    public float interactDistance = 0f;
     public KeyCode interactKey = KeyCode.E;
 
     [Header("UI")]
