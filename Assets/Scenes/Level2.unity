@@ -1638,79 +1638,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05dfabc20b33b734aa33b2405879d7bb, type: 3}
---- !u!1001 &388780295
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 439897470472663394, guid: 78e4d777796e3cf478fa3235ed5d01ee,
-        type: 3}
-      propertyPath: batteryHUD
-      value: 
-      objectReference: {fileID: 709763818}
-    - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -11.829
-      objectReference: {fileID: 0}
-    - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.288
-      objectReference: {fileID: 0}
-    - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 16.853
-      objectReference: {fileID: 0}
-    - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 5570601644720048604, guid: 78e4d777796e3cf478fa3235ed5d01ee,
-        type: 3}
-      propertyPath: m_Name
-      value: FlashlightPickup_1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 78e4d777796e3cf478fa3235ed5d01ee, type: 3}
 --- !u!1 &389045484
 GameObject:
   m_ObjectHideFlags: 0
@@ -3085,6 +3012,21 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.486
       objectReference: {fileID: 0}
+    - target: {fileID: 7453541867739429000, guid: bb864dc1be8ac1e468045435872c51e9,
+        type: 3}
+      propertyPath: keyId
+      value: Gate Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 7453541867739429000, guid: bb864dc1be8ac1e468045435872c51e9,
+        type: 3}
+      propertyPath: keyUses
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7453541867739429000, guid: bb864dc1be8ac1e468045435872c51e9,
+        type: 3}
+      propertyPath: itemName
+      value: Gate Key
+      objectReference: {fileID: 0}
     - target: {fileID: 7889165249195798992, guid: bb864dc1be8ac1e468045435872c51e9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3504,6 +3446,7 @@ GameObject:
   - component: {fileID: 856373566}
   - component: {fileID: 856373565}
   - component: {fileID: 856373564}
+  - component: {fileID: 856373568}
   m_Layer: 5
   m_Name: HUD
   m_TagString: Untagged
@@ -3601,6 +3544,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &856373568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856373563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d4eff870fd0f8241baa0f3d1cc8afde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EscToMenu
 --- !u!1 &874027526
 GameObject:
   m_ObjectHideFlags: 0
@@ -4964,6 +4919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hotbar
   items: []
+  keys: []
   slotTexts:
   - {fileID: 2143056590}
   - {fileID: 1168820193}
@@ -5002,7 +4958,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1240339545}
   - component: {fileID: 1240339544}
-  - component: {fileID: 1240339547}
   - component: {fileID: 1240339546}
   m_Layer: 0
   m_Name: GameManager
@@ -5139,18 +5094,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1240339547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1240339543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d4eff870fd0f8241baa0f3d1cc8afde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EscToMenu
 --- !u!1 &1243946174 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: e8509d0bc33ac9c4088232205ccc9352,
@@ -5170,6 +5113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
   isOpen: 0
+  requiredKeyId: Gate Key
 --- !u!4 &1243946179 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: e8509d0bc33ac9c4088232205ccc9352,
@@ -6368,7 +6312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Flashlight
   hotbar: {fileID: 1225280144}
   flashlightObject: {fileID: 732626050}
-  flashlight: {fileID: 1708697993}
+  flashlightLight: {fileID: 1708697993}
   itemName: Flashlight
   toggleKey: 102
 --- !u!114 &1648492444
@@ -7970,6 +7914,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LockedGate_1
       objectReference: {fileID: 0}
+    - target: {fileID: 4968705835053731844, guid: 6245607865f222e44b5c869a658176ad,
+        type: 3}
+      propertyPath: requiredKeyId
+      value: Gate Key
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8249,7 +8198,9 @@ PrefabInstance:
       value: ExitHallway
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4481801797722309994, guid: ff03544959e9dd247abc4bb03b381165, type: 3}
+    - {fileID: 2271454123700736106, guid: ff03544959e9dd247abc4bb03b381165, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff03544959e9dd247abc4bb03b381165, type: 3}
@@ -8549,6 +8500,5 @@ SceneRoots:
   - {fileID: 518307301}
   - {fileID: 1744597662}
   - {fileID: 675271860}
-  - {fileID: 388780295}
   - {fileID: 1162095723}
   - {fileID: 1465985373}

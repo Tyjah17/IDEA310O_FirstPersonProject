@@ -2561,7 +2561,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 856373563}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d4eff870fd0f8241baa0f3d1cc8afde, type: 3}
   m_Name: 
@@ -3182,6 +3182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hotbar
   items: []
+  keys: []
   slotTexts:
   - {fileID: 2143056590}
   - {fileID: 1168820193}
@@ -4034,7 +4035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Flashlight
   hotbar: {fileID: 1225280144}
   flashlightObject: {fileID: 732626050}
-  flashlight: {fileID: 1708697993}
+  flashlightLight: {fileID: 1708697993}
   itemName: Flashlight
   toggleKey: 102
 --- !u!114 &1648492444
@@ -5083,13 +5084,28 @@ PrefabInstance:
       objectReference: {fileID: 709763818}
     - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
+        type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.284
+      value: 1.282
       objectReference: {fileID: 0}
     - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.0203
+      value: 1.063
       objectReference: {fileID: 0}
     - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
         type: 3}
@@ -5099,7 +5115,7 @@ PrefabInstance:
     - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 0.7299237
       objectReference: {fileID: 0}
     - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
         type: 3}
@@ -5114,7 +5130,7 @@ PrefabInstance:
     - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.7071068
+      value: 0.6835286
       objectReference: {fileID: 0}
     - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
         type: 3}
@@ -5129,7 +5145,7 @@ PrefabInstance:
     - target: {fileID: 4033208668637875548, guid: 78e4d777796e3cf478fa3235ed5d01ee,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 90
+      value: 86.24
       objectReference: {fileID: 0}
     - target: {fileID: 5570601644720048604, guid: 78e4d777796e3cf478fa3235ed5d01ee,
         type: 3}
@@ -5153,6 +5169,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: env
+      objectReference: {fileID: 0}
+    - target: {fileID: 3676435497187367389, guid: c552977bb1227e64f8388004072701ca,
+        type: 3}
+      propertyPath: requiredKeyId
+      value: Basement Key
       objectReference: {fileID: 0}
     - target: {fileID: 5220658139885858460, guid: c552977bb1227e64f8388004072701ca,
         type: 3}
@@ -5354,6 +5375,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: KeyPickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 7453541867739429000, guid: bb864dc1be8ac1e468045435872c51e9,
+        type: 3}
+      propertyPath: keyId
+      value: Basement Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 7453541867739429000, guid: bb864dc1be8ac1e468045435872c51e9,
+        type: 3}
+      propertyPath: itemName
+      value: Basement Key
       objectReference: {fileID: 0}
     - target: {fileID: 7889165249195798992, guid: bb864dc1be8ac1e468045435872c51e9,
         type: 3}

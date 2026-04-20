@@ -285,7 +285,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 015509f5a89679748b609cd0e9085968, type: 3}
+  m_Resource: {fileID: 8300000, guid: 4f09b42bcd8d36c488fb93dc3535a12f, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1366,7 +1366,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 16.137207, y: -168.99997}
+  m_AnchoredPosition: {x: 16.137207, y: -155}
   m_SizeDelta: {x: -416.3153, y: -562.4872}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &499288671
@@ -1389,8 +1389,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "                    CONTROLS\n - Move: WASD    - Interact: E\n - Flashlight:
-    F - Stun: Left Click"
+  m_text: "                    CONTROLS\n - Move: WASD    - Sprint: Shift\n - Flashlight:
+    F - Stun: Left Click\n - Interact: E"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
