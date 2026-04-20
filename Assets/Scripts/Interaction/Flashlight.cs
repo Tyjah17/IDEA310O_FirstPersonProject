@@ -1,11 +1,13 @@
 using UnityEngine;
 
-public class Flashlight : MonoBehaviour {
+public class Flashlight : MonoBehaviour
+{
+    [Header("References")]
     public Hotbar hotbar;
 
     [Header("Held Flashlight")]
     public GameObject flashlightObject;
-    public Light flashlight;
+    public Light flashlightLight;
 
     [Header("Settings")]
     public string itemName = "Flashlight";
@@ -15,10 +17,8 @@ public class Flashlight : MonoBehaviour {
     private bool isOn = false;
 
     void Start() {
-        if (flashlightObject != null)
-            flashlightObject.SetActive(false);
-        if (flashlight != null)
-            flashlight.enabled = false;
+        SetFlashlightVisible(false);
+        SetLightEnabled(false);
     }
 
     void Update() {
@@ -27,12 +27,8 @@ public class Flashlight : MonoBehaviour {
 
         UpdateHeldFlashlightVisibility();
 
-        if (hasFlashlight && Input.GetKeyDown(toggleKey)) {
-            string selectedItem = hotbar.GetSelectedItem();
-
-            if (selectedItem == itemName) {
-                ToggleFlashlight();
-            }
+        if (CanToggleFlashlight() && Input.GetKeyDown(toggleKey)) {
+            ToggleFlashlight();
         }
     }
 
@@ -40,30 +36,45 @@ public class Flashlight : MonoBehaviour {
         hasFlashlight = true;
     }
 
+    public bool IsFlashlightOn() {
+        return isOn;
+    }
+
+    bool CanToggleFlashlight() {
+        if (!hasFlashlight)
+            return false;
+
+        string selectedItem = hotbar.GetSelectedItem();
+        return selectedItem == itemName;
+    }
+
     void ToggleFlashlight() {
         isOn = !isOn;
-
-        if (flashlight != null) {
-            flashlight.enabled = isOn;
-        }
+        SetLightEnabled(isOn);
     }
 
     void UpdateHeldFlashlightVisibility() {
-        if (flashlightObject == null)
+        if (flashlightObject == null || hotbar == null)
             return;
 
         string selectedItem = hotbar.GetSelectedItem();
         bool shouldShow = hasFlashlight && selectedItem == itemName;
 
-        flashlightObject.SetActive(shouldShow);
+        SetFlashlightVisible(shouldShow);
 
-        if (!shouldShow && flashlight != null) {
-            flashlight.enabled = false;
+        if (!shouldShow) {
             isOn = false;
+            SetLightEnabled(false);
         }
     }
 
-    public bool IsFlashlightOn() {
-        return isOn;
+    void SetFlashlightVisible(bool value) {
+        if (flashlightObject != null)
+            flashlightObject.SetActive(value);
+    }
+
+    void SetLightEnabled(bool value) {
+        if (flashlightLight != null)
+            flashlightLight.enabled = value;
     }
 }

@@ -5307,6 +5307,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1648492432}
+    - target: {fileID: 5302299274533585175, guid: 53a144aaa0ed0534a820093050e586ab,
+        type: 3}
+      propertyPath: soundDistance
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7421509299658911954, guid: 53a144aaa0ed0534a820093050e586ab,
         type: 3}
       propertyPath: player

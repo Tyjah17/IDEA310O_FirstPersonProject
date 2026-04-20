@@ -1,14 +1,15 @@
 using UnityEngine;
 using TMPro;
 
-public class PlayerInteract : MonoBehaviour {
+public class PlayerInteract : MonoBehaviour
+{
     [Header("References")]
     public Camera playerCamera;
     public Hotbar hotbar;
     public Flashlight flashlight;
 
     [Header("Interaction Settings")]
-    public float interactDistance = 0f;
+    public float interactDistance = 3f;
     public KeyCode interactKey = KeyCode.E;
 
     [Header("UI")]
@@ -19,59 +20,78 @@ public class PlayerInteract : MonoBehaviour {
     }
 
     void CheckForInteractable() {
-        if (playerCamera == null)
+        if (playerCamera == null) {
+            HideInteractText();
             return;
+        }
 
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, interactDistance)) {
+        if (!Physics.Raycast(ray, out RaycastHit hit, interactDistance)) {
+            HideInteractText();
+            return;
+        }
+        PickupItem pickup = hit.collider.GetComponentInParent<PickupItem>();
+        if (pickup != null)
+        {
+            HandlePickup(pickup);
+            return;
+        }
+        Door door = hit.collider.GetComponentInParent<Door>();
+        if (door != null) {
+            HandleDoor(door);
+            return;
+        }
+        LevelExit levelExit = hit.collider.GetComponentInParent<LevelExit>();
+        if (levelExit != null) {
+            HandleLevelExit(levelExit);
+            return;
+        }
+        HideInteractText();
+    }
 
-            PickupItem pickup = hit.collider.GetComponentInParent<PickupItem>();
-            if (pickup != null) {
-                if (interactText != null) {
-                    interactText.text = "Press E to pick up " + pickup.itemName;
-                    interactText.gameObject.SetActive(true);
-                }
-                if (Input.GetKeyDown(interactKey)) {
-                    pickup.OnPickup(hotbar, flashlight);
-                }
-                return;
-            }
+    void HandlePickup(PickupItem pickup) {
+        ShowInteractText("Press E to pick up " + pickup.itemName);
 
-            Door door = hit.collider.GetComponentInParent<Door>();
-            if (door != null) {
-                bool hasKey = hotbar.HasItem("Key");
-                if (interactText != null) {
-                    if (hasKey) {
-                        interactText.text = "Press E to open door";
-                    } else {
-                        interactText.text = "Need a Key to open door...";
-                    }
+        if (Input.GetKeyDown(interactKey)) {
+            pickup.OnPickup(hotbar, flashlight);
+        }
+    }
 
-                    interactText.gameObject.SetActive(true);
-                }
+    void HandleDoor(Door door) {
+        bool hasKey = hotbar != null && hotbar.HasUsableKey(door.requiredKeyId);
+        int usesLeft = hotbar != null ? hotbar.GetKeyUses(door.requiredKeyId) : 0;
 
-                if (Input.GetKeyDown(interactKey)) {
-                    if (hasKey) {
-                        door.OpenDoor();
-                    }
-                }
-                return;
-            }
+        if (hasKey) {
+            ShowInteractText("Press E to open door (" + usesLeft + " use left)");
+        } else {
+            ShowInteractText("Need key: " + door.requiredKeyId);
+        }
 
-            LevelExit levelExit = hit.collider.GetComponentInParent<LevelExit>();
-            if (levelExit != null) {
-                if (interactText != null) {
-                    interactText.text = "Press E to exit level";
-                    interactText.gameObject.SetActive(true);
-                }
-
-                if (Input.GetKeyDown(interactKey)) {
-                    levelExit.Interact();
-                }
-                return;
+        if (Input.GetKeyDown(interactKey) && hasKey) {
+            if (hotbar.UseKey(door.requiredKeyId)) {
+                door.OpenDoor();
             }
         }
+    }
+
+    void HandleLevelExit(LevelExit levelExit) {
+        ShowInteractText("Press E to exit level");
+
+        if (Input.GetKeyDown(interactKey)) {
+            levelExit.Interact();
+        }
+    }
+
+    void ShowInteractText(string message) {
+        if (interactText == null)
+            return;
+
+        interactText.text = message;
+        interactText.gameObject.SetActive(true);
+    }
+
+    void HideInteractText() {
         if (interactText != null) {
             interactText.gameObject.SetActive(false);
         }

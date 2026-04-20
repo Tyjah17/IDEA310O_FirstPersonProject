@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class PickupItem : MonoBehaviour {
+public class PickupItem : MonoBehaviour
+{
     public enum ItemType {
         Generic,
         Flashlight,
@@ -12,31 +13,53 @@ public class PickupItem : MonoBehaviour {
     public ItemType itemType = ItemType.Generic;
     public bool destroyOnPickup = true;
 
+    [Header("Key Settings")]
+    public string keyId = "";
+    public int keyUses = 1;
+
     [Header("UI")]
     public GameObject batteryHUD;
 
-    public void OnPickup(Hotbar hotbar, Flashlight flashlight) {
-        if (hotbar != null) {
-            hotbar.AddItem(itemName);
-        }
+    public void OnPickup(Hotbar hotbar, Flashlight flashlight)
+    {
+        switch (itemType)
+        {
+            case ItemType.Key:
+                if (hotbar != null)
+                {
+                    hotbar.AddKey(keyId, keyUses, itemName);
+                }
+                break;
 
-        HandleSpecialPickup(flashlight);
-
-        if (destroyOnPickup)
-            Destroy(gameObject);
-        else
-            gameObject.SetActive(false);
-    }
-
-    void HandleSpecialPickup(Flashlight flashlight) {
-        switch (itemType) {
             case ItemType.Flashlight:
-                if (flashlight != null) {
+                if (hotbar != null)
+                {
+                    hotbar.AddItem(itemName);
+                }
+
+                if (flashlight != null)
+                {
                     flashlight.UnlockFlashlight();
-                } if (batteryHUD != null) {
+                }
+
+                if (batteryHUD != null)
+                {
                     batteryHUD.SetActive(true);
                 }
                 break;
+
+            default:
+                if (hotbar != null)
+                {
+                    hotbar.AddItem(itemName);
+                }
+                break;
+        }
+
+        if (destroyOnPickup) {
+            Destroy(gameObject);
+        } else {
+            gameObject.SetActive(false);
         }
     }
 }
