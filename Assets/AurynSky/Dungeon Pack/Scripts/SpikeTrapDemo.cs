@@ -4,36 +4,72 @@ using UnityEngine;
 
 public class SpikeTrapDemo : MonoBehaviour {
 
-    //This script goes on the SpikeTrap prefab;
-
-    public Animator spikeTrapAnim; //Animator for the SpikeTrap;
+    public Animator spikeTrapAnim;
     private AudioSource spikeTrapAudio;
-    private bool playerInRange = false;
 
-    // Use this for initialization
+    [Header("Player")]
+    public Transform player;
+
+    [Header("Sound Range")]
+    public float maxSoundRange = 15f;
+    public float mediumSoundRange = 10f;
+    public float closeSoundRange = 5f;
+
     void Awake()
     {
-        //get the Animator component from the trap;
         spikeTrapAnim = GetComponent<Animator>();
         spikeTrapAudio = GetComponent<AudioSource>();
-        //start opening and closing the trap for demo purposes;
+
         StartCoroutine(OpenCloseTrap());
     }
 
-
     IEnumerator OpenCloseTrap()
     {
-        //play open animation;
-        spikeTrapAudio.Play();
         spikeTrapAnim.SetTrigger("open");
-        //wait 2 seconds;
+        HandleTrapSound();
         yield return new WaitForSeconds(2);
-        //play close animation;
-        spikeTrapAnim.SetTrigger("close");
-        //wait 2 seconds;
-        yield return new WaitForSeconds(2);
-        //Do it again;
-        StartCoroutine(OpenCloseTrap());
 
+        spikeTrapAnim.SetTrigger("close");
+        yield return new WaitForSeconds(2);
+
+        StartCoroutine(OpenCloseTrap());
+    }
+
+    private void HandleTrapSound()
+    {
+        if (player == null || spikeTrapAudio == null)
+        {
+            return;
+        }
+
+        float distance = Vector3.Distance(transform.position, player.position);
+
+        if (distance <= maxSoundRange)
+        {
+            if (!spikeTrapAudio.isPlaying)
+            {
+                spikeTrapAudio.Play();
+            }
+
+            if (distance <= closeSoundRange)
+            {
+                spikeTrapAudio.volume = 1f;
+            }
+            else if (distance <= mediumSoundRange)
+            {
+                spikeTrapAudio.volume = 0.5f;
+            }
+            else
+            {
+                spikeTrapAudio.volume = 0.15f;
+            }
+        }
+        else
+        {
+            if (spikeTrapAudio.isPlaying)
+            {
+                spikeTrapAudio.Stop();
+            }
+        }
     }
 }
