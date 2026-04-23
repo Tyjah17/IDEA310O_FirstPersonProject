@@ -54,13 +54,13 @@ public class FirstPersonController : MonoBehaviour
     #endregion
 
     #region Movement Variables
-
     public bool playerCanMove = true;
     public float walkSpeed = 5f;
     public float maxVelocityChange = 10f;
 
     // Internal Variables
     private bool isWalking = false;
+    private AudioSource footstepAudio;
 
     #region Sprint
 
@@ -97,6 +97,8 @@ public class FirstPersonController : MonoBehaviour
     public bool enableJump = true;
     public KeyCode jumpKey = KeyCode.Space;
     public float jumpPower = 5f;
+    public float jumpCooldown = 2f;
+    private float jumpCooldownTimer = 0f;
 
     // Internal Variables
     private bool isGrounded = false;
@@ -134,6 +136,7 @@ public class FirstPersonController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        footstepAudio = GetComponent<AudioSource>();
 
         crosshairObject = GetComponentInChildren<Image>();
 
@@ -330,6 +333,10 @@ public class FirstPersonController : MonoBehaviour
         {
             Jump();
         }
+        if (jumpCooldownTimer > 0f)
+        {
+            jumpCooldownTimer -= Time.deltaTime;
+        }
 
         #endregion
 
@@ -362,6 +369,8 @@ public class FirstPersonController : MonoBehaviour
         {
             HeadBob();
         }
+        HandleFootsteps();
+
     }
 
     void FixedUpdate()
@@ -370,12 +379,9 @@ public class FirstPersonController : MonoBehaviour
 
         if (playerCanMove)
         {
-            // Calculate how fast we should be moving
             Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
-            // Checks if player is walking and isGrounded
-            // Will allow head bob
-            if (targetVelocity.x != 0 || targetVelocity.z != 0 && isGrounded)
+            if ((targetVelocity.x != 0 || targetVelocity.z != 0) && isGrounded)
             {
                 isWalking = true;
             }
@@ -384,38 +390,37 @@ public class FirstPersonController : MonoBehaviour
                 isWalking = false;
             }
 
-            // All movement calculations shile sprint is active
-            if (enableSprint && Input.GetKey(sprintKey) && sprintRemaining > 0f && !isSprintCooldown)
+            float currentSpeed = walkSpeed;
+
+            if (isCrouched)
             {
-                targetVelocity = transform.TransformDirection(targetVelocity) * sprintSpeed;
-
-                // Apply a force that attempts to reach our target velocity
-                Vector3 velocity = rb.linearVelocity;
-                Vector3 velocityChange = (targetVelocity - velocity);
-                velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
-                velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
-                velocityChange.y = 0;
-
-                // Player is only moving when valocity change != 0
-                // Makes sure fov change only happens during movement
-                if (velocityChange.x != 0 || velocityChange.z != 0)
-                {
-                    isSprinting = true;
-
-                    if (isCrouched)
-                    {
-                        Crouch();
-                    }
-
-                    if (hideBarWhenFull && !unlimitedSprint)
-                    {
-                        sprintBarCG.alpha += 5 * Time.deltaTime;
-                    }
-                }
-
-                rb.AddForce(velocityChange, ForceMode.VelocityChange);
+                currentSpeed = walkSpeed * speedReduction;
+                isSprinting = false;
             }
-            // All movement calculations while walking
+            else if (enableSprint && Input.GetKey(sprintKey) && sprintRemaining > 0f && !isSprintCooldown)
+            {
+                currentSpeed = sprintSpeed;
+            }
+
+            targetVelocity = transform.TransformDirection(targetVelocity) * currentSpeed;
+
+            Vector3 velocity = rb.linearVelocity;
+            Vector3 horizontalVelocity = new Vector3(velocity.x, 0, velocity.z);
+            Vector3 velocityChange = targetVelocity - horizontalVelocity;
+
+            velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+            velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+            velocityChange.y = 0;
+
+            if (!isCrouched && enableSprint && Input.GetKey(sprintKey) && sprintRemaining > 0f && !isSprintCooldown && (velocityChange.x != 0 || velocityChange.z != 0))
+            {
+                isSprinting = true;
+
+                if (hideBarWhenFull && !unlimitedSprint)
+                {
+                    sprintBarCG.alpha += 5 * Time.deltaTime;
+                }
+            }
             else
             {
                 isSprinting = false;
@@ -424,18 +429,9 @@ public class FirstPersonController : MonoBehaviour
                 {
                     sprintBarCG.alpha -= 3 * Time.deltaTime;
                 }
-
-                targetVelocity = transform.TransformDirection(targetVelocity) * walkSpeed;
-
-                // Apply a force that attempts to reach our target velocity
-                Vector3 velocity = rb.linearVelocity;
-                Vector3 velocityChange = (targetVelocity - velocity);
-                velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
-                velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
-                velocityChange.y = 0;
-
-                rb.AddForce(velocityChange, ForceMode.VelocityChange);
             }
+
+            rb.AddForce(velocityChange, ForceMode.VelocityChange);
         }
 
         #endregion
@@ -461,15 +457,17 @@ public class FirstPersonController : MonoBehaviour
 
     private void Jump()
     {
-        // Adds force to the player rigidbody to jump
-        if (isGrounded)
+        if (isGrounded && jumpCooldownTimer <= 0f)
         {
             rb.AddForce(0f, jumpPower, 0f, ForceMode.Impulse);
             isGrounded = false;
+
+            // start cooldown
+            jumpCooldownTimer = jumpCooldown;
         }
 
-        // When crouched and using toggle system, will uncrouch for a jump
-        if(isCrouched && !holdToCrouch)
+        // keep your existing crouch behavior
+        if (isCrouched && !holdToCrouch)
         {
             Crouch();
         }
@@ -482,7 +480,7 @@ public class FirstPersonController : MonoBehaviour
         if(isCrouched)
         {
             transform.localScale = new Vector3(originalScale.x, originalScale.y, originalScale.z);
-            walkSpeed /= speedReduction;
+            //walkSpeed /= speedReduction;
 
             isCrouched = false;
         }
@@ -491,7 +489,7 @@ public class FirstPersonController : MonoBehaviour
         else
         {
             transform.localScale = new Vector3(originalScale.x, crouchHeight, originalScale.z);
-            walkSpeed *= speedReduction;
+            //walkSpeed *= speedReduction;
 
             isCrouched = true;
         }
@@ -524,6 +522,49 @@ public class FirstPersonController : MonoBehaviour
             // Resets when play stops moving
             timer = 0;
             joint.localPosition = new Vector3(Mathf.Lerp(joint.localPosition.x, jointOriginalPos.x, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.y, jointOriginalPos.y, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.z, jointOriginalPos.z, Time.deltaTime * bobSpeed));
+        }
+    }
+
+    private void HandleFootsteps()
+    {
+        if (footstepAudio == null) return;
+
+        bool isMoving = Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0;
+
+        // 🚫 If crouched → NO sound at all
+        if (isCrouched)
+        {
+            if (footstepAudio.isPlaying)
+            {
+                footstepAudio.Stop();
+            }
+            return;
+        }
+
+        // 🎮 Normal movement logic
+        if (isMoving && isGrounded)
+        {
+            // 🏃 Sprint = faster footsteps
+            if (isSprinting)
+            {
+                footstepAudio.pitch = 1.3f;
+            }
+            else
+            {
+                footstepAudio.pitch = 1f;
+            }
+
+            if (!footstepAudio.isPlaying)
+            {
+                footstepAudio.Play();
+            }
+        }
+        else
+        {
+            if (footstepAudio.isPlaying)
+            {
+                footstepAudio.Stop();
+            }
         }
     }
 }
