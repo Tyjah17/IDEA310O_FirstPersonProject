@@ -15,7 +15,6 @@ public class KeyRandomSpawner : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("KeyRandomSpawner Start ran on: " + gameObject.name);
         SpawnKey();
     }
 
@@ -23,33 +22,25 @@ public class KeyRandomSpawner : MonoBehaviour
     {
         if (keyPrefab == null)
         {
-            Debug.LogError("Key prefab is NOT assigned.");
             return;
         }
-
-        Debug.Log("Key prefab assigned: " + keyPrefab.name);
 
         Transform chosenPoint = null;
         float roll = Random.value;
 
-        Debug.Log("Roll = " + roll + " | nearDoorChance = " + nearDoorChance);
-
         if (nearDoorSpawnPoint != null && roll <= nearDoorChance)
         {
             chosenPoint = nearDoorSpawnPoint;
-            Debug.Log("Using nearDoorSpawnPoint: " + chosenPoint.name);
         }
         else
         {
             if (normalSpawnPoints == null || normalSpawnPoints.Length == 0)
             {
-                Debug.LogError("No normal spawn points assigned.");
                 return;
             }
 
             int randomIndex = Random.Range(0, normalSpawnPoints.Length);
             chosenPoint = normalSpawnPoints[randomIndex];
-            Debug.Log("Using normal spawn point: " + chosenPoint.name);
         }
 
         GameObject spawnedKey = Instantiate(keyPrefab, chosenPoint.position, chosenPoint.rotation);

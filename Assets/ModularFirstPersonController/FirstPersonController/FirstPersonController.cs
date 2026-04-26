@@ -97,8 +97,6 @@ public class FirstPersonController : MonoBehaviour
     public bool enableJump = true;
     public KeyCode jumpKey = KeyCode.Space;
     public float jumpPower = 5f;
-    public float jumpCooldown = 2f;
-    private float jumpCooldownTimer = 0f;
 
     // Internal Variables
     private bool isGrounded = false;
@@ -333,10 +331,6 @@ public class FirstPersonController : MonoBehaviour
         {
             Jump();
         }
-        if (jumpCooldownTimer > 0f)
-        {
-            jumpCooldownTimer -= Time.deltaTime;
-        }
 
         #endregion
 
@@ -457,17 +451,15 @@ public class FirstPersonController : MonoBehaviour
 
     private void Jump()
     {
-        if (isGrounded && jumpCooldownTimer <= 0f)
+        // Adds force to the player rigidbody to jump
+        if (isGrounded)
         {
             rb.AddForce(0f, jumpPower, 0f, ForceMode.Impulse);
             isGrounded = false;
-
-            // start cooldown
-            jumpCooldownTimer = jumpCooldown;
         }
 
-        // keep your existing crouch behavior
-        if (isCrouched && !holdToCrouch)
+        // When crouched and using toggle system, will uncrouch for a jump
+        if(isCrouched && !holdToCrouch)
         {
             Crouch();
         }

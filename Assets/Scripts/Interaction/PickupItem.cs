@@ -5,7 +5,9 @@ public class PickupItem : MonoBehaviour
     public enum ItemType {
         Generic,
         Flashlight,
-        Key
+        Key,
+        Heart,
+        Battery
     }
 
     [Header("Item Info")]
@@ -19,6 +21,8 @@ public class PickupItem : MonoBehaviour
 
     [Header("UI")]
     public GameObject batteryHUD;
+
+    private PlayerHealth player;
 
     public void OnPickup(Hotbar hotbar, Flashlight flashlight)
     {
@@ -45,6 +49,15 @@ public class PickupItem : MonoBehaviour
                 if (batteryHUD != null)
                 {
                     batteryHUD.SetActive(true);
+                }
+                break;
+            case ItemType.Heart:
+                PlayerHealth health = player.GetComponent<PlayerHealth>();
+
+                if (health != null && health.health < health.maxHealth)
+                {
+                    health.Heal(1);
+                    Destroy(gameObject);
                 }
                 break;
 
